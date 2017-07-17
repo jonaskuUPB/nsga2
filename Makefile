@@ -1,11 +1,13 @@
 # Makefile for compiling NSGA-II source code
-CC=gcc
+#CC=gcc
+CC=g++
 LD=gcc
 RM=rm -f
 CFLAGS=-Wall -g
 # CFLAGS=-Wall -ansi -pedantic -g
 OBJS:=$(patsubst %.c,%.o,$(wildcard *.c))
 MAIN=nsga2r
+LIB=libNSGA2
 all:$(MAIN)
 $(MAIN):$(OBJS)
 	$(LD) $(LDFLAGS) $(OBJS) -o $(MAIN) -lm
@@ -13,3 +15,6 @@ $(MAIN):$(OBJS)
 	$(CC) $(CFLAGS)  -c $<
 clean:
 	$(RM) $(OBJS)
+
+$(LIB):	$(OBJS)
+	ar rcs Build/$(LIB).a $(OBJS)
