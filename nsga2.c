@@ -279,7 +279,256 @@ NSGA2Type ReadParameters(int argc, char **argv){
     return nsga2Params;
 }
 
-
+NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
+			int numObjectives, int numConstraints, int numReals,
+			double* minRealVar, double* maxRealVar, double probRealCrossOver,
+			double probRealMutate, double etaC, double etaM, int numBinaries, int* numBinBits,
+			double* minBinVar, double* maxBinVar, double probBinCrossOver,
+			double probBinMutate, int useGnuplot, int objectiveOnXAxis, int objectiveOnYAxis, int objectiveOnZAxis,
+			int dimDisplay, int angle1, int angle2){
+    int i;
+    NSGA2Type nsga2Params;
+    
+    nsga2Params.seed = seed;
+    if (nsga2Params.seed<=0.0 || nsga2Params.seed>=1.0)
+    {
+        printf("\n Entered seed value is wrong, seed value must be in (0,1) \n");
+        exit(1);
+    }
+    
+    nsga2Params.popsize = popSize;
+    if (nsga2Params.popsize<4 || (nsga2Params.popsize%4)!= 0)
+    {
+        printf("\n population size read is : %d",nsga2Params.popsize);
+        printf("\n Wrong population size entered, hence exiting \n");
+        exit (1);
+    }
+    
+    nsga2Params.ngen = numGenerations;
+    if (nsga2Params.ngen<1)
+    {
+        printf("\n number of generations read is : %d",nsga2Params.ngen);
+        printf("\n Wrong nuber of generations entered, hence exiting \n");
+        exit (1);
+    }
+    
+    nsga2Params.nobj = numObjectives;
+    if (nsga2Params.nobj<1)
+    {
+        printf("\n number of objectives entered is : %d",nsga2Params.nobj);
+        printf("\n Wrong number of objectives entered, hence exiting \n");
+        exit (1);
+    }
+    
+    nsga2Params.ncon = numConstraints;
+    if (nsga2Params.ncon<0)
+    {
+        printf("\n number of constraints entered is : %d",nsga2Params.ncon);
+        printf("\n Wrong number of constraints enetered, hence exiting \n");
+        exit (1);
+    }
+    
+    nsga2Params.nreal = numReals;
+    if (nsga2Params.nreal<0)
+    {
+        printf("\n number of real variables entered is : %d",nsga2Params.nreal);
+        printf("\n Wrong number of variables entered, hence exiting \n");
+        exit (1);
+    }
+    if (nsga2Params.nreal != 0)
+    {
+        nsga2Params.min_realvar = (double *)malloc(nsga2Params.nreal*sizeof(double));
+        nsga2Params.max_realvar = (double *)malloc(nsga2Params.nreal*sizeof(double));
+        for (i=0; i<nsga2Params.nreal; i++)
+        {
+            nsga2Params.min_realvar[i] = minRealVar[i];
+            nsga2Params.max_realvar[i] = maxRealVar[i];
+            if (nsga2Params.max_realvar[i] <= nsga2Params.min_realvar[i])
+            {
+                printf("\n Wrong limits entered for the min and max bounds of real variable, hence exiting \n");
+                exit(1);
+            }
+        }
+        
+        nsga2Params.pcross_real = probRealCrossOver;
+        if (nsga2Params.pcross_real<0.0 || nsga2Params.pcross_real>1.0)
+        {
+            printf("\n Probability of crossover entered is : %e",nsga2Params.pcross_real);
+            printf("\n Entered value of probability of crossover of real variables is out of bounds, hence exiting \n");
+            exit (1);
+        }
+        
+        nsga2Params.pmut_real = probRealMutate;
+        if (nsga2Params.pmut_real<0.0 || nsga2Params.pmut_real>1.0)
+        {
+            printf("\n Probability of mutation entered is : %e",nsga2Params.pmut_real);
+            printf("\n Entered value of probability of mutation of real variables is out of bounds, hence exiting \n");
+            exit (1);
+        }
+        
+        nsga2Params.eta_c = etaC;
+        if (nsga2Params.eta_c<=0)
+        {
+            printf("\n The value entered is : %e",nsga2Params.eta_c);
+            printf("\n Wrong value of distribution index for crossover entered, hence exiting \n");
+            exit (1);
+        }
+        
+        nsga2Params.eta_m = etaM;
+        if (nsga2Params.eta_m<=0)
+        {
+            printf("\n The value entered is : %e",nsga2Params.eta_m);
+            printf("\n Wrong value of distribution index for mutation entered, hence exiting \n");
+            exit (1);
+        }
+    }
+    
+    nsga2Params.nbin = numBinaries;
+    if (nsga2Params.nbin<0)
+    {
+        printf ("\n number of binary variables entered is : %d",nsga2Params.nbin);
+        printf ("\n Wrong number of binary variables entered, hence exiting \n");
+        exit(1);
+    }
+    if (nsga2Params.nbin != 0)
+    {
+        nsga2Params.nbits = (int *)malloc(nsga2Params.nbin*sizeof(int));
+        nsga2Params.min_binvar = (double *)malloc(nsga2Params.nbin*sizeof(double));
+        nsga2Params.max_binvar = (double *)malloc(nsga2Params.nbin*sizeof(double));
+        for (i=0; i<nsga2Params.nbin; i++)
+        {
+            nsga2Params.nbits[i] = numBinBits[i];
+            if (nsga2Params.nbits[i] < 1)
+            {
+                printf("\n Wrong number of bits for binary variable entered, hence exiting");
+                exit(1);
+            }
+            nsga2Params.min_binvar[i] = minBinVar[i];
+            nsga2Params.max_binvar[i] = maxBinVar[i];
+            if (nsga2Params.max_binvar[i] <= nsga2Params.min_binvar[i])
+            {
+                printf("\n Wrong limits entered for the min and max bounds of binary variable entered, hence exiting \n");
+                exit(1);
+            }
+        }
+        nsga2Params.pcross_bin = probBinCrossOver;
+        if (nsga2Params.pcross_bin<0.0 || nsga2Params.pcross_bin>1.0)
+        {
+            printf("\n Probability of crossover entered is : %e",nsga2Params.pcross_bin);
+            printf("\n Entered value of probability of crossover of binary variables is out of bounds, hence exiting \n");
+            exit (1);
+        }
+        nsga2Params.pmut_bin = probBinMutate;
+        if (nsga2Params.pmut_bin<0.0 || nsga2Params.pmut_bin>1.0)
+        {
+            printf("\n Probability of mutation entered is : %e",nsga2Params.pmut_bin);
+            printf("\n Entered value of probability  of mutation of binary variables is out of bounds, hence exiting \n");
+            exit (1);
+        }
+    }
+    if (nsga2Params.nreal==0 && nsga2Params.nbin==0)
+    {
+        printf("\n Number of real as well as binary variables, both are zero, hence exiting \n");
+        exit(1);
+    }
+    nsga2Params.choice = useGnuplot;
+    if (nsga2Params.choice!=0 && nsga2Params.choice!=1)
+    {
+        printf("\n Entered the wrong nsga2Params.choice, hence exiting, nsga2Params.choice entered was %d\n",nsga2Params.choice);
+        exit(1);
+    }
+    if (nsga2Params.choice==1)
+    {
+        gp = popen(GNUPLOT_COMMAND,"w");
+        if (gp==NULL)
+        {
+            printf("\n Could not open a pipe to gnuplot, check the definition of GNUPLOT_COMMAND in file global.h\n");
+            printf("\n Edit the string to suit your system configuration and rerun the program\n");
+            exit(1);
+        }
+        if (nsga2Params.nobj==2)
+        {
+            nsga2Params.obj1 = objectiveOnXAxis;
+            if (nsga2Params.obj1<1 || nsga2Params.obj1>nsga2Params.nobj)
+            {
+                printf("\n Wrong value of X objective entered, value entered was %d\n",nsga2Params.obj1);
+                exit(1);
+            }
+           
+			nsga2Params.obj2 = objectiveOnYAxis;
+            if (nsga2Params.obj2<1 || nsga2Params.obj2>nsga2Params.nobj)
+            {
+                printf("\n Wrong value of Y objective entered, value entered was %d\n",nsga2Params.obj2);
+                exit(1);
+            }
+            nsga2Params.obj3 = -1;
+        }
+        else
+        {
+            nsga2Params.choice = dimDisplay;
+            if (nsga2Params.choice!=2 && nsga2Params.choice!=3)
+            {
+                printf("\n Entered the wrong nsga2Params.choice, hence exiting, nsga2Params.choice entered was %d\n",nsga2Params.choice);
+                exit(1);
+            }
+            if (nsga2Params.choice==2)
+            {
+                nsga2Params.obj1 = objectiveOnXAxis;
+                if (nsga2Params.obj1<1 || nsga2Params.obj1>nsga2Params.nobj)
+                {
+                    printf("\n Wrong value of X objective entered, value entered was %d\n",nsga2Params.obj1);
+                    exit(1);
+                }
+                
+                nsga2Params.obj2 = objectiveOnYAxis;
+                if (nsga2Params.obj2<1 || nsga2Params.obj2>nsga2Params.nobj)
+                {
+                    printf("\n Wrong value of Y objective entered, value entered was %d\n",nsga2Params.obj2);
+                    exit(1);
+                }
+                nsga2Params.obj3 = -1;
+            }
+            else
+            {
+                nsga2Params.obj1 = objectiveOnXAxis;
+                if (nsga2Params.obj1<1 || nsga2Params.obj1>nsga2Params.nobj)
+                {
+                    printf("\n Wrong value of X objective entered, value entered was %d\n",nsga2Params.obj1);
+                    exit(1);
+                }
+                
+                nsga2Params.obj2 = objectiveOnYAxis;
+                if (nsga2Params.obj2<1 || nsga2Params.obj2>nsga2Params.nobj)
+                {
+                    printf("\n Wrong value of Y objective entered, value entered was %d\n",nsga2Params.obj2);
+                    exit(1);
+                }
+                
+                nsga2Params.obj3 = objectiveOnZAxis;
+                if (nsga2Params.obj3<1 || nsga2Params.obj3>nsga2Params.nobj)
+                {
+                    printf("\n Wrong value of Z objective entered, value entered was %d\n",nsga2Params.obj3);
+                    exit(1);
+                }
+                
+                nsga2Params.angle1 = angle1;
+                if (nsga2Params.angle1<0 || nsga2Params.angle1>180)
+                {
+                    printf("\n Wrong value for first angle entered, hence exiting \n");
+                    exit(1);
+                }
+                
+                nsga2Params.angle2 = angle2;
+                if (nsga2Params.angle2<0 || nsga2Params.angle2>360)
+                {
+                    printf("\n Wrong value for second angle entered, hence exiting \n");
+                    exit(1);
+                }
+            }
+        }
+    }
+    return nsga2Params;
+}
 
 void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out)
 {

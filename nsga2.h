@@ -155,6 +155,13 @@ individual* tournament (NSGA2Type *nsga2Params, individual *ind1, individual *in
  * nsga2.c
  */
 NSGA2Type ReadParameters(int argc, char **argv);
+NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
+			int numObjectives, int numConstraints, int numReals,
+			double* minRealVar, double* maxRealVar, double probRealCrossOver,
+			double probRealMutate, double etaC, double etaM, int numBinaries, int* numBinBits,
+			double* minBinVar, double* maxBinVar, double probBinCrossOver,
+			double probBinMutate, int useGnuplot, int objectiveOnXAxis, int objectiveOnYAxis, int objectiveOnZAxis,
+			int dimDisplay, int angle1, int angle2);
 void InitNSGA2(NSGA2Type *nsga2Params, void *, void *);
 int NSGA2(NSGA2Type *nsga2Params, void *, void *);
 void print_nsga2Params(NSGA2Type *nsga2Params);

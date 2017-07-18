@@ -1,6 +1,5 @@
 # Makefile for compiling NSGA-II source code
-#CC=gcc
-CC=g++
+CC=gcc
 LD=gcc
 RM=rm -f
 CFLAGS=-Wall -g
@@ -8,9 +7,13 @@ CFLAGS=-Wall -g
 OBJS:=$(patsubst %.c,%.o,$(wildcard *.c))
 MAIN=nsga2r
 LIB=libNSGA2
+
+
+$(LIB): CC=g++
+
 all:$(MAIN)
 $(MAIN):$(OBJS)
-	$(LD) $(LDFLAGS) $(OBJS) -o $(MAIN) -lm
+	$(LD) $(LDFLAGS) $(OBJS) -o Build/$(MAIN) -lm
 %.o: %.c nsga2.h rand.h
 	$(CC) $(CFLAGS)  -c $<
 clean:
