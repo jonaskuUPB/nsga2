@@ -22,7 +22,7 @@ void evaluate_pop (NSGA2Type *nsga2Params, population *pop, void *inp, void *out
 void evaluate_ind (NSGA2Type *nsga2Params, individual *ind, void *inp, void *out)
 {
     int j;
-    test_problem (ind->xreal, ind->xbin, ind->gene, ind->obj, ind->constr);
+    test_problem (ind->xreal, ind->xbin, ind->gene, ind->obj, ind->constr, inp, out);
     
     if (nsga2Params->ncon==0)
     {

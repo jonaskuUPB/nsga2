@@ -627,7 +627,7 @@ void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out)
 
 
 
-int NSGA2(NSGA2Type *nsga2Params, void *inp, void *out)
+int NSGA2(NSGA2Type *nsga2Params, void *inp, void *out, evalutation_function eval)
 {
     int i;
     

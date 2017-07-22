@@ -43,6 +43,8 @@ typedef struct lists
 } list;
 
 
+typedef void (*evalutation_function)(double *xreal, double *xbin, int **gene, double *obj, double *constr, void* inp, void* out);
+
 typedef struct NSGA2Type
 {
     double seed;
@@ -135,7 +137,7 @@ void mutation_ind (NSGA2Type *nsga2Params, individual *ind);
 void bin_mutate_ind (NSGA2Type *nsga2Params, individual *ind);
 void real_mutate_ind (NSGA2Type *nsga2Params, individual *ind);
 
-void test_problem (double *xreal, double *xbin, int **gene, double *obj, double *constr);
+void test_problem (double *xreal, double *xbin, int **gene, double *obj, double *constr, void* inp, void* out);
 
 void assign_rank_and_crowding_distance (NSGA2Type *nsga2Params, population *new_pop);
 
@@ -163,7 +165,7 @@ NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
 			double probBinMutate, int useGnuplot, int objectiveOnXAxis, int objectiveOnYAxis, int objectiveOnZAxis,
 			int dimDisplay, int angle1, int angle2);
 void InitNSGA2(NSGA2Type *nsga2Params, void *, void *);
-int NSGA2(NSGA2Type *nsga2Params, void *, void *);
+int NSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval);
 void print_nsga2Params(NSGA2Type *nsga2Params);
 
 # endif
