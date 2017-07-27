@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 
 	nsga2Params = ReadParameters(argc, argv);
 
-	InitNSGA2(&nsga2Params, inp, out);
+	InitNSGA2(&nsga2Params, inp, out, test_problem);
 	NSGA2(&nsga2Params, inp, out, test_problem);
 
 	return 0;

@@ -88,6 +88,7 @@ extern FILE *gp;
 extern population *parent_pop;
 extern population *child_pop;
 extern population *mixed_pop;
+extern evalutation_function eval_func;
 
 
 /**
@@ -116,8 +117,8 @@ void onthefly_display (NSGA2Type *nsga2Params, population *pop, FILE *gp, int ii
 
 int check_dominance (NSGA2Type *nsga2Params, individual *a, individual *b);
 
-void evaluate_pop (NSGA2Type *nsga2Params, population *pop, void *, void *);
-void evaluate_ind (NSGA2Type *nsga2Params, individual *ind, void *, void *);
+void evaluate_pop (NSGA2Type *nsga2Params, population *pop, void *, void *, evalutation_function eval);
+void evaluate_ind (NSGA2Type *nsga2Params, individual *ind, void *, void *, evalutation_function eval);
 
 
 void fill_nondominated_sort (NSGA2Type *nsga2Params,  population *mixed_pop, population *new_pop);
@@ -164,7 +165,7 @@ NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
 			double* minBinVar, double* maxBinVar, double probBinCrossOver,
 			double probBinMutate, int useGnuplot, int objectiveOnXAxis, int objectiveOnYAxis, int objectiveOnZAxis,
 			int dimDisplay, int angle1, int angle2);
-void InitNSGA2(NSGA2Type *nsga2Params, void *, void *);
+void InitNSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval);
 int NSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval);
 void print_nsga2Params(NSGA2Type *nsga2Params);
 

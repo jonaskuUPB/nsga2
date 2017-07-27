@@ -8,21 +8,21 @@
 # include "rand.h"
 
 /* Routine to evaluate objective function values and constraints for a population */
-void evaluate_pop (NSGA2Type *nsga2Params, population *pop, void *inp, void *out)
+void evaluate_pop (NSGA2Type *nsga2Params, population *pop, void *inp, void *out, evalutation_function eval)
 {
     int i;
     for (i=0; i<nsga2Params->popsize; i++)
     {
-        evaluate_ind (nsga2Params, &(pop->ind[i]), inp, out);
+        evaluate_ind (nsga2Params, &(pop->ind[i]), inp, out, eval);
     }
     return;
 }
 
 /* Routine to evaluate objective function values and constraints for an individual */
-void evaluate_ind (NSGA2Type *nsga2Params, individual *ind, void *inp, void *out)
+void evaluate_ind (NSGA2Type *nsga2Params, individual *ind, void *inp, void *out, evalutation_function eval)
 {
     int j;
-    test_problem (ind->xreal, ind->xbin, ind->gene, ind->obj, ind->constr, inp, out);
+    eval(ind->xreal, ind->xbin, ind->gene, ind->obj, ind->constr, inp, out);
     
     if (nsga2Params->ncon==0)
     {
