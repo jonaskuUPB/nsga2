@@ -21,11 +21,11 @@
 /* # define zdt4 */
 /* # define zdt5 */
 /* # define zdt6 */
-/* # define bnh */
+# define bnh
 /* # define osy */
 /* # define srn */
 /* # define tnk */
- # define ctp1 
+// # define ctp1 
 /* # define ctp2 */
 /* # define ctp3 */
 /* # define ctp4 */
