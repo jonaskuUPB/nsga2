@@ -13,11 +13,11 @@ $(LIB): CC=g++
 
 all:$(MAIN)
 $(MAIN):$(OBJS)
-	$(LD) $(LDFLAGS) $(OBJS) -o Build/$(MAIN) -lm
+	$(LD) $(LDFLAGS) $(OBJS) -o build/$(MAIN) -lm
 %.o: %.c nsga2.h rand.h
 	$(CC) $(CFLAGS)  -c $<
 clean:
 	$(RM) $(OBJS)
 
 $(LIB):	$(OBJS)
-	ar rcs Build/$(LIB).a $(OBJS)
+	ar rcs build/$(LIB).a $(OBJS)

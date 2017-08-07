@@ -2,6 +2,7 @@
 
 # include "nsga2.h"
 # include "rand.h"
+#include <string.h>
 
 FILE *fpt1;
 FILE *fpt2;
@@ -530,18 +531,24 @@ NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
     return nsga2Params;
 }
 
-void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out, evalutation_function eval)
+char* buildFilePath(char* dest, char* dir, char* file) {
+	strcpy(dest, dir);
+	strcat(dest, file);
+	return dest;
+}
+
+void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out, evalutation_function eval, char* dir)
 {
     int i;
     
     printf("\n == InitNSGA2 ==");
-    
+    char path[1000];
     // Initialize the files...
-    fpt1 = fopen("initial_pop.out","w");
-    fpt2 = fopen("final_pop.out","w");
-    fpt3 = fopen("best_pop.out","w");
-    fpt4 = fopen("all_pop.out","w");
-    fpt5 = fopen("params.out","w");
+    fpt1 = fopen(buildFilePath(path, dir,"initial_pop.out"),"w");
+    fpt2 = fopen(buildFilePath(path, dir,"final_pop.out"),"w");
+    fpt3 = fopen(buildFilePath(path, dir,"best_pop.out"),"w");
+    fpt4 = fopen(buildFilePath(path, dir,"all_pop.out"),"w");
+    fpt5 = fopen(buildFilePath(path, dir,"params.out"),"w");
     fprintf(fpt1,"# This file contains the data of initial population\n");
     fprintf(fpt2,"# This file contains the data of final population\n");
     fprintf(fpt3,"# This file contains the data of final feasible population (if found)\n");
