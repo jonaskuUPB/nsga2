@@ -531,13 +531,13 @@ NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
     return nsga2Params;
 }
 
-char* buildFilePath(char* dest, char* dir, char* file) {
+char* buildFilePath(char* dest, const char* dir, char* file) {
 	strcpy(dest, dir);
 	strcat(dest, file);
 	return dest;
 }
 
-void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out, evalutation_function eval, char* dir)
+void InitNSGA2(NSGA2Type *nsga2Params, void *inp, void *out, evalutation_function eval, const char* dir)
 {
     int i;
     

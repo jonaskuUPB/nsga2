@@ -165,7 +165,7 @@ NSGA2Type SetParameters(float seed, int popSize, int numGenerations,
 			double* minBinVar, double* maxBinVar, double probBinCrossOver,
 			double probBinMutate, int useGnuplot, int objectiveOnXAxis, int objectiveOnYAxis, int objectiveOnZAxis,
 			int dimDisplay, int angle1, int angle2);
-void InitNSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval, char* dir);
+void InitNSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval, const char* dir);
 int NSGA2(NSGA2Type *nsga2Params, void *, void *, evalutation_function eval);
 void print_nsga2Params(NSGA2Type *nsga2Params);
 
